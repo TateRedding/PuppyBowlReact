@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useState }from "react";
 
-const NewPlayerForm = ({nameInput, setNameInput, breedInput, setBreedInput, addNewPlayer, renderAllPlayers }) => {
+const NewPlayerForm = ({ APIURL, renderAllPlayers }) => {
+    const [nameInput, setNameInput] = useState('');
+    const [breedInput, setBreedInput] = useState('');
+    const addNewPlayer = async (player) => {
+        try {
+            await fetch(`${APIURL}/players`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: player.name,
+                    breed: player.breed
+                }),
+            });
+        } catch (error) {
+            console.log("Something went wrong!", error);
+        };
+    };
 
-    //Can onSubmit be an async callback function?
     const handleSubmit = (event) => {
         event.preventDefault();
         const newPlayer = {

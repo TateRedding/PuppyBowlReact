@@ -1,7 +1,37 @@
 import React from "react";
 import PlayerHeader from "./PlayerHeader";
 
-const PlayerCard = ({ player, setSelectedPlayer, getSinglePlayer, removePlayer, renderAllPlayers }) => {
+const PlayerCard = ({ player, setSelectedPlayer, APIURL, renderAllPlayers }) => {
+
+    const getSinglePlayer = async (playerId) => {
+        try {
+            const resp = await fetch(`${APIURL}/players/${playerId}`);
+            const result = await resp.json();
+            if (result.error) {
+                throw result.error
+            }
+            return result.data.player;
+        } catch (error) {
+            console.error("Something went wrong!", error);
+        };
+    };
+
+    const removePlayer = async (playerId) => {
+        try {
+            const resp = await fetch(`${APIURL}/players/${playerId}`, {
+                method: `DELETE`,
+            });
+            const result = await resp.json();
+            if (result.error) {
+                throw result.error;
+            }
+            return;
+        } catch (error) {
+            console.log("Something went wrong!", error);
+        };
+
+    };
+
     return (
         <div className="single-player-card">
             <PlayerHeader player={player} />
