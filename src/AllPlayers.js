@@ -1,12 +1,12 @@
 import React from "react";
 import PlayerCard from "./PlayerCard";
 
-const AllPlayers = ({ puppyList }) => {
+const AllPlayers = ({ playerList , setSelectedPlayer, getSinglePlayer}) => {
     return (
         <>
             {
-                puppyList.map((puppy) => {
-                    return <PlayerCard key={puppy.id} puppy={puppy} />
+                playerList.map((player) => {
+                    return <PlayerCard key={player.id} player={player} setSelectedPlayer={setSelectedPlayer} getSinglePlayer={getSinglePlayer} />
                 })
             }
         </>

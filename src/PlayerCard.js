@@ -1,15 +1,15 @@
 import React from "react";
+import PlayerHeader from "./PlayerHeader";
 
-const PlayerCard = ({ puppy }) => {
+const PlayerCard = ({ player, setSelectedPlayer, getSinglePlayer }) => {
     return (
         <div className="single-player-card">
-            <div className="header-info">
-                <p className="pup-title">{puppy.name}</p>
-                <p className="pup-number">{puppy.id}</p>
-            </div>
-            <img src={`${puppy.imageUrl}`} alt={`Photo of ${puppy.name}`} />
-            <button className="detail-button" data-id={puppy.id}>See details</button>
-            <button className="remove-button" data-id={puppy.id}>Remove from roster</button>
+            <PlayerHeader player={player} />
+            <img src={`${player.imageUrl}`} alt={`Photo of ${player.name}`} />
+            <button data-id={player.id} onClick={async () => {
+                setSelectedPlayer(await getSinglePlayer(player.id))
+            }}>See details</button>
+            <button data-id={player.id}>Remove from roster</button>
         </div>
     );
 };
