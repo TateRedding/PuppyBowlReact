@@ -1,7 +1,14 @@
 import React from "react";
 import PlayerHeader from "./PlayerHeader";
+import "./playerCard.css"
 
-const PlayerCard = ({ player, setSelectedPlayer, APIURL, renderAllPlayers }) => {
+const PlayerCard = ({
+        player,
+        selectedTeam,
+        setSelectedTeam,
+        setSelectedPlayer,
+        APIURL,
+        renderAllPlayers }) => {
 
     const getSinglePlayer = async (playerId) => {
         try {
@@ -37,12 +44,20 @@ const PlayerCard = ({ player, setSelectedPlayer, APIURL, renderAllPlayers }) => 
             <PlayerHeader player={player} />
             <img src={`${player.imageUrl}`} alt={`Photo of ${player.name}`} />
             <button data-id={player.id} onClick={async () => {
+                setSelectedTeam({});
                 setSelectedPlayer(await getSinglePlayer(player.id))
             }}>See details</button>
             <button data-id={player.id} onClick={async () => {
                 await removePlayer(player.id);
                 renderAllPlayers();
             }}>Remove from roster</button>
+            {(selectedTeam.name) ?
+                <button onClick={() => {
+                    setSelectedPlayer({});
+                    setSelectedTeam({});
+                }}>Back to all players</button> :
+                <></>
+            }
         </div>
     );
 };

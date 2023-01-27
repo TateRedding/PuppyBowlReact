@@ -1,0 +1,15 @@
+.single-player-view {
+    flex-basis: 500px;
+    max-width: 500px;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2);
+    margin: 5px 10px;
+    padding: 10px;
+    border-radius: 10px;
+  
+    display: flex;
+    flex-direction: column;
+}
+  
+.single-player-view > p {
+    margin: 10px 0px 0px 0px;
+}

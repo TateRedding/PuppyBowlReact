@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { createRoot } from 'react-dom/client';
+import Header from "./Header.js";
 import NewPlayerForm from "./NewPlayerForm.js";
 import AllPlayers from "./AllPlayers.js";
 import SinglePlayer from "./SinglePlayer.js";
+import TeamView from "./TeamView.js";
 
 const App = () => {
     const APIURL = "https://fsa-puppy-bowl.herokuapp.com/api/2211-ftb-et-web-am";
-    const [playerList, setPlayerList] = useState([]);
-    const [selectedPlayer, setSelectedPlayer] = useState({});
+    const [ playerList, setPlayerList ] = useState([]);
+    const [ selectedPlayer, setSelectedPlayer ] = useState({});
+    const [ selectedTeam, setSelectedTeam ] = useState({});
 
     const getAllPlayers = async () => {
         try {
@@ -30,13 +33,32 @@ const App = () => {
     
     return (
         <>
-            <NewPlayerForm APIURL={APIURL} renderAllPlayers={renderAllPlayers}/>
-            <div id="all-players-container">{
-                (selectedPlayer.name) ? 
-                    <SinglePlayer player={selectedPlayer} setSelectedPlayer={setSelectedPlayer}/> : 
-                    (playerList.length) ? 
-                        <AllPlayers playerList={playerList} setSelectedPlayer={setSelectedPlayer} APIURL={APIURL} renderAllPlayers={renderAllPlayers}/> : 
-                        <h3>No players to display!</h3>
+            <Header />
+            <NewPlayerForm
+                APIURL={APIURL}
+                renderAllPlayers={renderAllPlayers} />
+            <div className="main-content">{
+                (selectedTeam.name) ?
+                    <TeamView
+                        selectedTeam={selectedTeam}
+                        setSelectedTeam={setSelectedTeam}
+                        setSelectedPlayer={setSelectedPlayer}
+                        APIURL={APIURL}
+                        renderAllPlayers={renderAllPlayers} /> :
+                    (selectedPlayer.name) ?
+                        <SinglePlayer
+                            player={selectedPlayer}
+                            setSelectedPlayer={setSelectedPlayer}
+                            setSelectedTeam={setSelectedTeam} /> :
+                        (playerList.length) ?
+                            <AllPlayers
+                                playerList={playerList}
+                                selectedTeam={selectedTeam}
+                                setSelectedTeam={setSelectedTeam}
+                                setSelectedPlayer={setSelectedPlayer}
+                                APIURL={APIURL}
+                                renderAllPlayers={renderAllPlayers} /> :
+                            <h3>No players to display!</h3>
             }</div>
         </>
     );

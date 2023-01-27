@@ -1,6 +1,9 @@
 import React, { useState }from "react";
+import "./newPlayerForm.css";
 
-const NewPlayerForm = ({ APIURL, renderAllPlayers }) => {
+const NewPlayerForm = ({
+        APIURL,
+        renderAllPlayers }) => {
     const [nameInput, setNameInput] = useState('');
     const [breedInput, setBreedInput] = useState('');
     const addNewPlayer = async (player) => {
@@ -21,23 +24,21 @@ const NewPlayerForm = ({ APIURL, renderAllPlayers }) => {
         };
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const newPlayer = {
             name: nameInput,
             breed: breedInput
         };
-        const submitAndReset = async () => {
-            await addNewPlayer(newPlayer);
-            renderAllPlayers();
-        };
-        submitAndReset();
+        await addNewPlayer(newPlayer);
+        renderAllPlayers();
         setNameInput('');
         setBreedInput('');
     };
 
     return (
-        <div id="new-player-form">
+        <div className="new-player-form">
+            <h3>Enter your pup now!</h3>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Name:</label>
                 <input 

@@ -1,25 +1,23 @@
-#all-players-container {
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Oxygen', sans-serif;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2em;
+    background: #f0ece2; 
+}
+
+.multiple-players-view {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-}
-  
-.single-player-card {
-    flex-basis: 200px;
-    flex-grow: 1;
-    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2);
-    margin: 5px 10px;
-    padding: 10px;
-    border-radius: 10px;
-  
-    display: flex;
-    flex-direction: column;
-}
-  
-.single-player-card img, .single-player-view img {
-    width: 100%;
-    border-radius: 10px;
-    margin: 10px 0px;
+    padding-top: 2em;
 }
   
 .header-info {
@@ -40,18 +38,3 @@
 .pup-number {
     font-style: italic;
 }
-  
-.single-player-view {
-    flex-basis: 500px;
-    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2);
-    margin: 5px 10px;
-    padding: 10px;
-    border-radius: 10px;
-  
-    display: flex;
-    flex-direction: column;
-}
-  
-.single-player-view > p {
-    margin: 10px 0px 0px 0px;
-}  
