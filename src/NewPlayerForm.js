@@ -1,11 +1,11 @@
 import React, { useState }from "react";
-import "./newPlayerForm.css";
+import "./form.css";
 
 const NewPlayerForm = ({
         APIURL,
         renderAllPlayers }) => {
-    const [nameInput, setNameInput] = useState('');
-    const [breedInput, setBreedInput] = useState('');
+    const [ nameInput, setNameInput ] = useState('');
+    const [ breedInput, setBreedInput ] = useState('');
     const addNewPlayer = async (player) => {
         try {
             await fetch(`${APIURL}/players`,
@@ -37,7 +37,7 @@ const NewPlayerForm = ({
     };
 
     return (
-        <div className="new-player-form">
+        <div className="form-container">
             <h3>Enter your pup now!</h3>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Name:</label>

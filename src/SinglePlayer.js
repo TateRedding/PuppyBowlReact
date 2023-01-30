@@ -4,6 +4,7 @@ import "./singlePlayer.css";
 
 const SinglePlayer = ({
         player,
+        setPlayerList,
         setSelectedPlayer,
         setSelectedTeam }) => {
     return (
@@ -13,7 +14,11 @@ const SinglePlayer = ({
             <p>Breed: {player.breed}</p>
             <img src={`${player.imageUrl}`} alt={`Photo of ${player.name}`} />
             {(player.team) ?
-                <button onClick={() => setSelectedTeam(player.team)}>View Team {player.team.name}</button> :
+                <button onClick={() => {
+                    setSelectedPlayer({})
+                    setSelectedTeam(player.team)
+                    setPlayerList(player.team.players)
+                }}>View Team {player.team.name}</button> :
                 <></>
             }
             <button onClick={() => setSelectedPlayer({})}>Back to all players</button>

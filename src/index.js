@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import { createRoot } from 'react-dom/client';
 import Header from "./Header.js";
 import NewPlayerForm from "./NewPlayerForm.js";
-import AllPlayers from "./AllPlayers.js";
+import SearchForm from "./SearchForm";
+import MultiplePlayers from "./MultiplePlayers.js";
 import SinglePlayer from "./SinglePlayer.js";
-import TeamView from "./TeamView.js";
 
 const App = () => {
     const APIURL = "https://fsa-puppy-bowl.herokuapp.com/api/2211-ftb-et-web-am";
     const [ playerList, setPlayerList ] = useState([]);
     const [ selectedPlayer, setSelectedPlayer ] = useState({});
     const [ selectedTeam, setSelectedTeam ] = useState({});
+    const [ searchTerm, setSearchTerm ] = useState("");
 
     const getAllPlayers = async () => {
         try {
@@ -37,28 +38,48 @@ const App = () => {
             <NewPlayerForm
                 APIURL={APIURL}
                 renderAllPlayers={renderAllPlayers} />
+            <>{
+                (selectedPlayer.name) ?
+                    <></> :
+                    <SearchForm 
+                        playerList={playerList}
+                        setSearchTerm={setSearchTerm}
+                        setPlayerList={setPlayerList}
+                        selectedTeam={selectedTeam} />
+            }</>
             <div className="main-content">{
-                (selectedTeam.name) ?
-                    <TeamView
-                        selectedTeam={selectedTeam}
-                        setSelectedTeam={setSelectedTeam}
+                (selectedPlayer.name) ?
+                    <SinglePlayer
+                        player={selectedPlayer}
+                        setPlayerList={setPlayerList}
                         setSelectedPlayer={setSelectedPlayer}
-                        APIURL={APIURL}
-                        renderAllPlayers={renderAllPlayers} /> :
-                    (selectedPlayer.name) ?
-                        <SinglePlayer
-                            player={selectedPlayer}
+                        setSelectedTeam={setSelectedTeam} /> :
+                    (playerList.length) ?
+                        <MultiplePlayers
+                            playerList={playerList}
+                            selectedTeam={selectedTeam}
+                            setSelectedTeam={setSelectedTeam}
                             setSelectedPlayer={setSelectedPlayer}
-                            setSelectedTeam={setSelectedTeam} /> :
-                        (playerList.length) ?
-                            <AllPlayers
-                                playerList={playerList}
-                                selectedTeam={selectedTeam}
-                                setSelectedTeam={setSelectedTeam}
-                                setSelectedPlayer={setSelectedPlayer}
-                                APIURL={APIURL}
-                                renderAllPlayers={renderAllPlayers} /> :
-                            <h3>No players to display!</h3>
+                            searchTerm={searchTerm}
+                            setSearchTerm={setSearchTerm}
+                            APIURL={APIURL}
+                            renderAllPlayers={renderAllPlayers} /> :
+                            (searchTerm) ?
+                                <>
+                                    <h3>No players found! Go back or try another search term.</h3>
+                                    <button onClick={() => {
+                                        if (selectedTeam.name) {
+                                            setPlayerList(selectedTeam.players)
+                                            
+                                        } else {
+                                            renderAllPlayers();
+                                            setSelectedTeam({});
+                                            setSelectedPlayer({});
+                                        }
+                                        setSearchTerm('');
+                                    }}>Go back</button>
+                                </> :
+                                <h3>No players to display!</h3>
             }</div>
         </>
     );

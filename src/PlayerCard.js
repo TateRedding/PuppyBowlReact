@@ -7,6 +7,8 @@ const PlayerCard = ({
         selectedTeam,
         setSelectedTeam,
         setSelectedPlayer,
+        searchTerm,
+        setSearchTerm,
         APIURL,
         renderAllPlayers }) => {
 
@@ -51,10 +53,12 @@ const PlayerCard = ({
                 await removePlayer(player.id);
                 renderAllPlayers();
             }}>Remove from roster</button>
-            {(selectedTeam.name) ?
+            {(selectedTeam.name || searchTerm) ?
                 <button onClick={() => {
+                    renderAllPlayers();
                     setSelectedPlayer({});
                     setSelectedTeam({});
+                    setSearchTerm('');
                 }}>Back to all players</button> :
                 <></>
             }

@@ -1,16 +1,25 @@
 import React from "react";
 import PlayerCard from "./PlayerCard";
 
-const AllPlayers = ({
+const MultiplePlayers = ({
         playerList,
         selectedTeam,
         setSelectedTeam,
         setSelectedPlayer,
+        searchTerm,
+        setSearchTerm,
         APIURL,
         renderAllPlayers }) => {
+
+    let header = '';
+    (searchTerm) ?
+        (selectedTeam.name) ?
+            header = `Searching Team ${selectedTeam.name} for "${searchTerm}"` :
+            header = `Searching for "${searchTerm}"` :
+        header = "Full Roster"
     return (
         <>
-            <h2>Full Roster</h2>
+            <h3>{header}</h3>
             <div className="multiple-players-view">{
                 playerList.map((player) => {
                     return <PlayerCard
@@ -19,6 +28,8 @@ const AllPlayers = ({
                                 selectedTeam={selectedTeam}
                                 setSelectedTeam={setSelectedTeam}
                                 setSelectedPlayer={setSelectedPlayer}
+                                searchTerm={searchTerm}
+                                setSearchTerm={setSearchTerm}
                                 APIURL={APIURL}
                                 renderAllPlayers={renderAllPlayers} />
                 })
@@ -27,4 +38,4 @@ const AllPlayers = ({
     );
 };
 
-export default AllPlayers;
+export default MultiplePlayers;
