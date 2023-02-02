@@ -1,30 +1,15 @@
 import React from "react";
 import PlayerHeader from "./PlayerHeader";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./playerCard.css"
 
 const PlayerCard = ({
         player,
-        selectedTeam,
-        setSelectedTeam,
-        setSelectedPlayer,
-        searchTerm,
-        setSearchTerm,
         APIURL,
-        renderAllPlayers }) => {
+        getAndSetPlayers }) => {
 
-    const getSinglePlayer = async (playerId) => {
-        try {
-            const resp = await fetch(`${APIURL}/players/${playerId}`);
-            const result = await resp.json();
-            if (result.error) {
-                throw result.error
-            }
-            return result.data.player;
-        } catch (error) {
-            console.error("Something went wrong!", error);
-        };
-    };
-
+    const navigate = useNavigate();
+    
     const removePlayer = async (playerId) => {
         try {
             const resp = await fetch(`${APIURL}/players/${playerId}`, {
@@ -45,22 +30,14 @@ const PlayerCard = ({
         <div className="single-player-card">
             <PlayerHeader player={player} />
             <img src={`${player.imageUrl}`} alt={`Photo of ${player.name}`} />
-            <button data-id={player.id} onClick={async () => {
-                setSelectedTeam({});
-                setSelectedPlayer(await getSinglePlayer(player.id))
-            }}>See details</button>
-            <button data-id={player.id} onClick={async () => {
+            <button onClick={() => navigate(`/player/${player.id}`)}>See details</button>
+            <button onClick={async () => {
                 await removePlayer(player.id);
-                renderAllPlayers();
+                getAndSetPlayers();
             }}>Remove from roster</button>
-            {(selectedTeam.name || searchTerm) ?
-                <button onClick={() => {
-                    renderAllPlayers();
-                    setSelectedPlayer({});
-                    setSelectedTeam({});
-                    setSearchTerm('');
-                }}>Back to all players</button> :
-                <></>
+            {useLocation().pathname.includes("team") || useLocation().pathname.includes("search") ?
+                <button onClick={() => navigate('/')}>Back to all players</button> :
+                null
             }
         </div>
     );

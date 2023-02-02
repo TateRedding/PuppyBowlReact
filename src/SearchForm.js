@@ -1,16 +1,14 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./form.css";
 
-const SearchForm = ({ playerList, setSearchTerm, setPlayerList, selectedTeam }) => {
+const SearchForm = () => {
     const [ searchInput, setSearchInput ] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setSearchTerm(searchInput);
-        setPlayerList(playerList.filter((player) => {
-            const term = searchInput.toLowerCase();
-            return player.name.toLowerCase().includes(term);
-        }));
+        navigate(`/search/${searchInput}`);
         setSearchInput('');
     };
 
@@ -22,11 +20,7 @@ const SearchForm = ({ playerList, setSearchTerm, setPlayerList, selectedTeam }) 
                     name="search"
                     value={searchInput}
                     onChange={(event) => setSearchInput(event.target.value)} />
-                <button type="submit">{
-                    (selectedTeam.name) ?
-                        `Search Team ${selectedTeam.name}` :
-                        "Search"
-                }</button>
+                <button type="submit">Search</button>
             </form>
         </div>
     );

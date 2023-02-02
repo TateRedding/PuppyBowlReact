@@ -1,9 +1,7 @@
 import React, { useState }from "react";
 import "./form.css";
 
-const NewPlayerForm = ({
-        APIURL,
-        renderAllPlayers }) => {
+const NewPlayerForm = ({ APIURL, getAndSetAllPlayers }) => {
     const [ nameInput, setNameInput ] = useState('');
     const [ breedInput, setBreedInput ] = useState('');
     const addNewPlayer = async (player) => {
@@ -31,7 +29,7 @@ const NewPlayerForm = ({
             breed: breedInput
         };
         await addNewPlayer(newPlayer);
-        renderAllPlayers();
+        getAndSetAllPlayers();
         setNameInput('');
         setBreedInput('');
     };
